@@ -3,17 +3,23 @@ import { execSync } from "child_process";
 import * as vscode from "vscode";
 
 export class Executor {
-    public static run(command: string, showInOutputChannel: boolean = true): string {
-        if (showInOutputChannel) {
-            this.channel.show();
-            this.channel.appendLine(`>> ${command}`);
+    public static runInTerminal(command: string): void {
+        if (this.terminal === null) {
+            this.terminal = vscode.window.createTerminal("Docker Explorer");
         }
-        const result = execSync(command, { encoding: "utf8" });
-        if (showInOutputChannel) {
-            this.channel.appendLine(result);
-        }
-        return result;
+        this.terminal.show();
+        this.terminal.sendText(command);
     }
 
-    private static channel = vscode.window.createOutputChannel("Docker Explorer");
+    public static execSync(command: string) {
+        return execSync(command, { encoding: "utf8" });
+    }
+
+    public static onDidCloseTerminal(closedTerminal: vscode.Terminal): void {
+        if (this.terminal === closedTerminal) {
+            this.terminal = null;
+        }
+    }
+
+    private static terminal = vscode.window.createTerminal("Docker Explorer");
 }

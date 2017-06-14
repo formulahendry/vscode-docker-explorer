@@ -1,43 +1,128 @@
 {
-    "name": "docker-explorer",
-    "displayName": "Docker Explorer",
-    "description": "Docker Explorer",
-    "version": "0.0.1",
-    "publisher": "formulahendry",
-    "engines": {
-        "vscode": "^1.13.0"
+  "name": "docker-explorer",
+  "displayName": "Docker Explorer",
+  "description": "Manage Docker Containers in Explorer",
+  "version": "0.0.1",
+  "publisher": "formulahendry",
+  "icon": "logo.png",
+  "engines": {
+    "vscode": "^1.13.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "docker",
+    "manage",
+    "explorer",
+    "cloud"
+  ],
+  "bugs": {
+    "url": "https://github.com/formulahendry/vscode-docker-explorer/issues",
+    "email": "formulahendry@gmail.com"
+  },
+  "homepage": "https://github.com/formulahendry/vscode-docker-explorer/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/formulahendry/vscode-docker-explorer.git"
+  },
+  "activationEvents": [
+    "onView:dockerContainers"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "dockerContainers",
+          "name": "Docker Containers"
+        }
+      ]
     },
-    "categories": [
-        "Other"
+    "commands": [
+      {
+        "command": "docker-explorer.refreshdockerContainers",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "docker-explorer.startContainer",
+        "title": "Start"
+      },
+      {
+        "command": "docker-explorer.stopContainer",
+        "title": "Stop"
+      },
+      {
+        "command": "docker-explorer.restartContainer",
+        "title": "Restart"
+      },
+      {
+        "command": "docker-explorer.showContainerStatistics",
+        "title": "Statistics"
+      }
     ],
-    "activationEvents": [
-        "onView:dockerContainers"
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "views": {
-            "explorer": [{
-                "id": "dockerContainers",
-                "name": "Docker Containers"
-            }]
+    "menus": {
+      "view/title": [
+        {
+          "command": "docker-explorer.refreshdockerContainers",
+          "when": "view == dockerContainers",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "docker-explorer.startContainer",
+          "when": "view == dockerContainers",
+          "group": "docker-explorer@0"
         },
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+        {
+          "command": "docker-explorer.stopContainer",
+          "when": "view == dockerContainers",
+          "group": "docker-explorer@1"
+        },
+        {
+          "command": "docker-explorer.restartContainer",
+          "when": "view == dockerContainers",
+          "group": "docker-explorer@2"
+        },
+        {
+          "command": "docker-explorer.showContainerStatistics",
+          "when": "view == dockerContainers",
+          "group": "docker-explorer@3"
+        }
+      ]
     },
-    "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "@types/mocha": "^2.2.32",
-        "@types/node": "^6.0.40",
-        "mocha": "^2.3.3",
-        "tslint": "^5.4.3",
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0"
+    "configuration": {
+      "type": "object",
+      "title": "Docker Explorer configuration",
+      "properties": {
+        "docker-explorer.enableTelemetry": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to enable anonymous usage collection."
+        }
+      }
     }
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.40",
+    "mocha": "^2.3.3",
+    "tslint": "^5.4.3",
+    "typescript": "^2.0.3",
+    "vscode": "^1.0.0"
+  },
+  "dependencies": {
+    "applicationinsights": "^0.20.1"
+  }
 }
