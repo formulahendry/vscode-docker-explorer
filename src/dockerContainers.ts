@@ -22,14 +22,15 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
 
     public getChildren(element?: DockerObject): Thenable<DockerObject[]> {
         const containers = [];
-        const containerStrings = Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}}\"").split(/[\r\n]+/g);
+        const containerStrings = Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}} {{.Status}}\"").split(/[\r\n]+/g);
         containerStrings.forEach((containerString) => {
             if (containerString) {
                 const items = containerString.split(" ");
+                const image = items[2] === "Up" ? "container-on.png" : "container-off.png";
                 containers.push(new DockerObject(
                     items[0],
                     items[1],
-                    this.context.asAbsolutePath(path.join("resources", "container.png")),
+                    this.context.asAbsolutePath(path.join("resources", image)),
                     {
                         command: "docker-explorer.getContainer",
                         title: "",
