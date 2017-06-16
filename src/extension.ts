@@ -9,8 +9,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerTreeDataProvider("dockerContainers", dockerContainers);
     AppInsightsClient.sendEvent("loadExtension");
 
-    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshdockerContainers", () => {
-        dockerContainers.refreshdockerContainers();
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerContainers", () => {
+        dockerContainers.refreshDockerContainers();
+        AppInsightsClient.sendEvent("refreshDockerContainers");
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.getContainer", (containerId) => {
@@ -31,6 +32,14 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.showContainerStatistics", (container) => {
         dockerContainers.showContainerStatistics(container.id);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.showContainerLogs", (container) => {
+        dockerContainers.showContainerLogs(container.id);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.removeContainer", (container) => {
+        dockerContainers.removeContainer(container.id);
     }));
 
     context.subscriptions.push(vscode.window.onDidCloseTerminal((closedTerminal: vscode.Terminal) => {

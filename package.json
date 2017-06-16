@@ -2,8 +2,9 @@
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
     "description": "Manage Docker Containers in Explorer",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "formulahendry",
+    "license": "MIT",
     "icon": "logo.png",
     "engines": {
         "vscode": "^1.13.0"
@@ -15,7 +16,8 @@
         "docker",
         "manage",
         "explorer",
-        "cloud"
+        "cloud",
+        "container"
     ],
     "bugs": {
         "url": "https://github.com/formulahendry/vscode-docker-explorer/issues",
@@ -38,7 +40,7 @@
             }]
         },
         "commands": [{
-                "command": "docker-explorer.refreshdockerContainers",
+                "command": "docker-explorer.refreshDockerContainers",
                 "title": "Refresh",
                 "icon": {
                     "light": "resources/light/refresh.svg",
@@ -60,11 +62,19 @@
             {
                 "command": "docker-explorer.showContainerStatistics",
                 "title": "Statistics"
+            },
+            {
+                "command": "docker-explorer.showContainerLogs",
+                "title": "Logs"
+            },
+            {
+                "command": "docker-explorer.removeContainer",
+                "title": "Remove"
             }
         ],
         "menus": {
             "view/title": [{
-                "command": "docker-explorer.refreshdockerContainers",
+                "command": "docker-explorer.refreshDockerContainers",
                 "when": "view == dockerContainers",
                 "group": "navigation"
             }],
@@ -87,6 +97,16 @@
                     "command": "docker-explorer.showContainerStatistics",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@3"
+                },
+                {
+                    "command": "docker-explorer.showContainerLogs",
+                    "when": "view == dockerContainers",
+                    "group": "docker-explorer@4"
+                },
+                {
+                    "command": "docker-explorer.removeContainer",
+                    "when": "view == dockerContainers",
+                    "group": "docker-explorer@5"
                 }
             ]
         },
@@ -98,6 +118,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Whether to enable anonymous usage collection."
+                },
+                "docker-explorer.autoRefreshInterval": {
+                    "type": "number",
+                    "default": 1000,
+                    "description": "Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh."
                 }
             }
         }

@@ -16,6 +16,10 @@
 
 ![explorer](images/explorer.png)
 
+## Settings
+
+* `docker-explorer.autoRefreshInterval`: Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh. (Default is **1000**)
+
 ## Telemetry data
 
 By default, anonymous telemetry data collection is turned on to understand user behavior to improve this extension. To disable it, update the settings.json as below:

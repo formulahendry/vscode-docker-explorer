@@ -3,17 +3,18 @@ import * as vscode from "vscode";
 import { AppInsightsClient } from "./appInsightsClient";
 import { Executor } from "./executor";
 import { DockerObject } from "./Model/DockerObject";
+import { Utility } from "./utility";
 
 export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
     public _onDidChangeTreeData: vscode.EventEmitter<DockerObject | undefined> = new vscode.EventEmitter<DockerObject | undefined>();
     public readonly onDidChangeTreeData: vscode.Event<DockerObject | undefined> = this._onDidChangeTreeData.event;
 
     constructor(private context: vscode.ExtensionContext) {
+        this.setAutoRefresh();
     }
 
-    public refreshdockerContainers(): void {
+    public refreshDockerContainers(): void {
         this._onDidChangeTreeData.fire();
-        AppInsightsClient.sendEvent("refreshdockerContainers");
     }
 
     public getTreeItem(element: DockerObject): vscode.TreeItem {
@@ -65,5 +66,24 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
     public showContainerStatistics(containerId: string): void {
         Executor.runInTerminal(`docker stats ${containerId}`);
         AppInsightsClient.sendEvent("showContainerStatistics");
+    }
+
+    public showContainerLogs(containerId: string): void {
+        Executor.runInTerminal(`docker logs ${containerId}`);
+        AppInsightsClient.sendEvent("showContainerLogs");
+    }
+
+    public removeContainer(containerId: string): void {
+        Executor.runInTerminal(`docker rm ${containerId}`);
+        AppInsightsClient.sendEvent("removeContainer");
+    }
+
+    private setAutoRefresh(): void {
+        const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
+        if (interval > 0) {
+            setInterval(() => {
+                this.refreshDockerContainers();
+            }, interval);
+        }
     }
 }
