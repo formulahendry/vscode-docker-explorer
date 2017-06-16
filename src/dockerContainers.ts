@@ -8,6 +8,7 @@ import { Utility } from "./utility";
 export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
     public _onDidChangeTreeData: vscode.EventEmitter<DockerObject | undefined> = new vscode.EventEmitter<DockerObject | undefined>();
     public readonly onDidChangeTreeData: vscode.Event<DockerObject | undefined> = this._onDidChangeTreeData.event;
+    private isErrorMessageShown = false;
 
     constructor(private context: vscode.ExtensionContext) {
         this.setAutoRefresh();
@@ -23,23 +24,31 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
 
     public getChildren(element?: DockerObject): Thenable<DockerObject[]> {
         const containers = [];
-        const containerStrings = Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}} {{.Status}}\"").split(/[\r\n]+/g);
-        containerStrings.forEach((containerString) => {
-            if (containerString) {
-                const items = containerString.split(" ");
-                const image = items[2] === "Up" ? "container-on.png" : "container-off.png";
-                containers.push(new DockerObject(
-                    items[0],
-                    items[1],
-                    this.context.asAbsolutePath(path.join("resources", image)),
-                    {
-                        command: "docker-explorer.getContainer",
-                        title: "",
-                        arguments: [items[0]],
-                    },
-                ));
+        try {
+            const containerStrings = Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}} {{.Status}}\"").split(/[\r\n]+/g);
+            containerStrings.forEach((containerString) => {
+                if (containerString) {
+                    const items = containerString.split(" ");
+                    const image = items[2] === "Up" ? "container-on.png" : "container-off.png";
+                    containers.push(new DockerObject(
+                        items[0],
+                        items[1],
+                        this.context.asAbsolutePath(path.join("resources", image)),
+                        {
+                            command: "docker-explorer.getContainer",
+                            title: "",
+                            arguments: [items[0]],
+                        },
+                    ));
+                }
+            });
+        } catch (error) {
+            if (!this.isErrorMessageShown) {
+                vscode.window.showErrorMessage(`[Failed to list Docker Containers] ${error.stderr}`);
+                this.isErrorMessageShown = true;
             }
-        });
+        }
+
         return Promise.resolve(containers);
     }
 
