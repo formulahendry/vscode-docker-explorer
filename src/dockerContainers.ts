@@ -15,6 +15,7 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
     }
 
     public refreshDockerContainers(): void {
+        this.isErrorMessageShown = false;
         this._onDidChangeTreeData.fire();
     }
 
@@ -91,7 +92,7 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
         const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
         if (interval > 0) {
             setInterval(() => {
-                this.refreshDockerContainers();
+                this._onDidChangeTreeData.fire();
             }, interval);
         }
     }
