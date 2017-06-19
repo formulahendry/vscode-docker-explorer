@@ -2,12 +2,12 @@ import * as path from "path";
 import * as vscode from "vscode";
 import { AppInsightsClient } from "./appInsightsClient";
 import { Executor } from "./executor";
-import { DockerObject } from "./Model/DockerObject";
+import { DockerContainer } from "./Model/DockerContainer";
 import { Utility } from "./utility";
 
-export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
-    public _onDidChangeTreeData: vscode.EventEmitter<DockerObject | undefined> = new vscode.EventEmitter<DockerObject | undefined>();
-    public readonly onDidChangeTreeData: vscode.Event<DockerObject | undefined> = this._onDidChangeTreeData.event;
+export class DockerContainers implements vscode.TreeDataProvider<DockerContainer> {
+    public _onDidChangeTreeData: vscode.EventEmitter<DockerContainer | undefined> = new vscode.EventEmitter<DockerContainer | undefined>();
+    public readonly onDidChangeTreeData: vscode.Event<DockerContainer | undefined> = this._onDidChangeTreeData.event;
     private isErrorMessageShown = false;
 
     constructor(private context: vscode.ExtensionContext) {
@@ -19,21 +19,22 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
         this._onDidChangeTreeData.fire();
     }
 
-    public getTreeItem(element: DockerObject): vscode.TreeItem {
+    public getTreeItem(element: DockerContainer): vscode.TreeItem {
         return element;
     }
 
-    public getChildren(element?: DockerObject): Thenable<DockerObject[]> {
+    public getChildren(element?: DockerContainer): Thenable<DockerContainer[]> {
         const containers = [];
         try {
-            const containerStrings = Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}} {{.Status}}\"").split(/[\r\n]+/g);
+            const containerStrings = Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}} {{.Image}} {{.Status}}\"").split(/[\r\n]+/g);
             containerStrings.forEach((containerString) => {
                 if (containerString) {
                     const items = containerString.split(" ");
-                    const image = items[2] === "Up" ? "container-on.png" : "container-off.png";
-                    containers.push(new DockerObject(
+                    const image = items[3] === "Up" ? "container-on.png" : "container-off.png";
+                    containers.push(new DockerContainer(
                         items[0],
                         items[1],
+                        items[2],
                         this.context.asAbsolutePath(path.join("resources", image)),
                         {
                             command: "docker-explorer.getContainer",

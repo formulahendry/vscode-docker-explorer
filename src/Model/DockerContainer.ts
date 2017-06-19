@@ -1,11 +1,12 @@
 import { Command, TreeItem } from "vscode";
 
-export class DockerObject extends TreeItem {
+export class DockerContainer extends TreeItem {
     constructor(
         public readonly id: string,
-        public readonly label: string,
+        public readonly name: string,
+        public readonly image: string,
         public readonly iconPath: string,
         public readonly command: Command) {
-        super(label);
+        super(`${name} \u2013 ${image}`);
     }
 }
