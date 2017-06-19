@@ -54,7 +54,7 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerObject> {
     }
 
     public getContainer(containerId: string): void {
-        Executor.runInTerminal(`docker ps --filter "id=${containerId}"`);
+        Executor.runInTerminal(`docker ps -a --filter "id=${containerId}"`);
         AppInsightsClient.sendEvent("getContainer");
     }
 
