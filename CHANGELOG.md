@@ -1,3 +1,7 @@
+## 0.0.5 (2017-06-19)
+* [#4](https://github.com/formulahendry/vscode-docker-explorer/issues/4): Search container
+* [#10](https://github.com/formulahendry/vscode-docker-explorer/issues/10): Show image name in container list
+
 ## 0.0.4 (2017-06-16)
 * Avoid showing error message infinitely
 

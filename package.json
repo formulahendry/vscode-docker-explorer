@@ -2,7 +2,7 @@
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
     "description": "Manage Docker Containers in Explorer",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "formulahendry",
     "license": "MIT",
     "icon": "logo.png",
@@ -70,6 +70,10 @@
             {
                 "command": "docker-explorer.removeContainer",
                 "title": "Remove"
+            },
+            {
+                "command": "docker-explorer.searchContainer",
+                "title": "Search"
             }
         ],
         "menus": {
@@ -77,6 +81,9 @@
                 "command": "docker-explorer.refreshDockerContainers",
                 "when": "view == dockerContainers",
                 "group": "navigation"
+            }, {
+                "command": "docker-explorer.searchContainer",
+                "when": "view == dockerContainers"
             }],
             "view/item/context": [{
                     "command": "docker-explorer.startContainer",

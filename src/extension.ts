@@ -14,32 +14,36 @@ export function activate(context: vscode.ExtensionContext) {
         AppInsightsClient.sendEvent("refreshDockerContainers");
     }));
 
-    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.getContainer", (containerId) => {
-        dockerContainers.getContainer(containerId);
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.searchContainer", () => {
+        dockerContainers.searchContainer();
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.getContainer", (containerName) => {
+        dockerContainers.getContainer(containerName);
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.startContainer", (container) => {
-        dockerContainers.startContainer(container.id);
+        dockerContainers.startContainer(container.name);
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.stopContainer", (container) => {
-        dockerContainers.stopContainer(container.id);
+        dockerContainers.stopContainer(container.name);
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.restartContainer", (container) => {
-        dockerContainers.restartContainer(container.id);
+        dockerContainers.restartContainer(container.name);
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.showContainerStatistics", (container) => {
-        dockerContainers.showContainerStatistics(container.id);
+        dockerContainers.showContainerStatistics(container.name);
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.showContainerLogs", (container) => {
-        dockerContainers.showContainerLogs(container.id);
+        dockerContainers.showContainerLogs(container.name);
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.removeContainer", (container) => {
-        dockerContainers.removeContainer(container.id);
+        dockerContainers.removeContainer(container.name);
     }));
 
     context.subscriptions.push(vscode.window.onDidCloseTerminal((closedTerminal: vscode.Terminal) => {

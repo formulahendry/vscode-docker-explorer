@@ -7,6 +7,6 @@ export class DockerContainer extends TreeItem {
         public readonly image: string,
         public readonly iconPath: string,
         public readonly command: Command) {
-        super(`${name} \u2013 ${image}`);
+        super(`${name} (${image})`);
     }
 }
