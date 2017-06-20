@@ -1,3 +1,6 @@
+## 0.0.6 (2017-06-20)
+* Improve auto-refresh
+
 ## 0.0.5 (2017-06-19)
 * [#4](https://github.com/formulahendry/vscode-docker-explorer/issues/4): Search container
 * [#10](https://github.com/formulahendry/vscode-docker-explorer/issues/10): Show image name in container list

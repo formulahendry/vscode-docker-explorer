@@ -21,6 +21,7 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerContainer
     }
 
     public searchContainer(): void {
+        AppInsightsClient.sendEvent("searchContainer");
         const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
         let containerStrings = [];
         if (interval > 0 && this.containerStrings.length > 0) {
