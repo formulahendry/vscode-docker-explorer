@@ -10,9 +10,9 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerContainer
     public readonly onDidChangeTreeData: vscode.Event<DockerContainer | undefined> = this._onDidChangeTreeData.event;
     private isErrorMessageShown = false;
     private containerStrings = [];
+    private _debounceTimer: NodeJS.Timer;
 
     constructor(private context: vscode.ExtensionContext) {
-        this.setAutoRefresh();
     }
 
     public refreshDockerContainers(): void {
@@ -69,6 +69,8 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerContainer
                 vscode.window.showErrorMessage(`[Failed to list Docker Containers] ${error.stderr}`);
                 this.isErrorMessageShown = true;
             }
+        } finally {
+            this.setAutoRefresh();
         }
 
         return Promise.resolve(containers);
@@ -112,7 +114,8 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerContainer
     private setAutoRefresh(): void {
         const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
         if (interval > 0) {
-            setInterval(() => {
+            clearTimeout(this._debounceTimer);
+            this._debounceTimer = setTimeout(() => {
                 this._onDidChangeTreeData.fire();
             }, interval);
         }
