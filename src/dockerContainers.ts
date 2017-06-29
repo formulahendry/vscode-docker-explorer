@@ -112,6 +112,21 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerContainer
         AppInsightsClient.sendEvent("removeContainer");
     }
 
+    public executeCommandInContainer(containerName: string): void {
+        const command = Utility.getConfiguration().get<string>("executionCommand");
+        if (command) {
+            Executor.runInTerminal(`docker exec ${containerName} ${command}`);
+        } else {
+            Executor.runInTerminal(`docker exec ${containerName} `, false);
+        }
+        AppInsightsClient.sendEvent("executeCommandInContainer", command ? { executionCommand: command } : {});
+    }
+
+    public executeInBashInContainer(containerName: string): void {
+        Executor.runInTerminal(`docker exec -it ${containerName} bash`);
+        AppInsightsClient.sendEvent("executeInBashInContainer");
+    }
+
     private setAutoRefresh(): void {
         const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
         if (interval > 0) {

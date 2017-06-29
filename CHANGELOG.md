@@ -1,3 +1,6 @@
+## 0.0.7 (2017-06-29)
+* [#7](https://github.com/formulahendry/vscode-docker-explorer/issues/7): Add 'Execute' and 'Execute In Bash' to context menu
+
 ## 0.0.6 (2017-06-20)
 * Improve auto-refresh
 

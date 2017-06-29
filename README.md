@@ -9,6 +9,7 @@
 ## Prerequisites
 
 * [Docker](https://www.docker.com/) is installed
+* For Linux user, make sure you could [manage Docker as a non-root user](https://docs.docker.com/engine/installation/linux/linux-postinstall/#manage-docker-as-a-non-root-user) without `sudo`
 
 ## Usage
 
@@ -19,6 +20,7 @@
 ## Settings
 
 * `docker-explorer.autoRefreshInterval`: Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh. (Default is **1000**)
+* `docker-explorer.executionCommand`: Command to execute in container.
 
 ## Telemetry data
 

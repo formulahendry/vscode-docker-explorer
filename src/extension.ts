@@ -46,6 +46,14 @@ export function activate(context: vscode.ExtensionContext) {
         dockerContainers.removeContainer(container.name);
     }));
 
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.executeCommandInContainer", (container) => {
+        dockerContainers.executeCommandInContainer(container.name);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.executeInBashInContainer", (container) => {
+        dockerContainers.executeInBashInContainer(container.name);
+    }));
+
     context.subscriptions.push(vscode.window.onDidCloseTerminal((closedTerminal: vscode.Terminal) => {
         Executor.onDidCloseTerminal(closedTerminal);
     }));

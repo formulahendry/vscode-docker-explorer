@@ -2,7 +2,7 @@
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
     "description": "Manage Docker Containers in Explorer",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "publisher": "formulahendry",
     "license": "MIT",
     "icon": "logo.png",
@@ -74,6 +74,14 @@
             {
                 "command": "docker-explorer.searchContainer",
                 "title": "Search"
+            },
+            {
+                "command": "docker-explorer.executeCommandInContainer",
+                "title": "Execute"
+            },
+            {
+                "command": "docker-explorer.executeInBashInContainer",
+                "title": "Execute In Bash"
             }
         ],
         "menus": {
@@ -86,34 +94,42 @@
                 "when": "view == dockerContainers"
             }],
             "view/item/context": [{
-                    "command": "docker-explorer.startContainer",
+                    "command": "docker-explorer.executeCommandInContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@0"
-                },
-                {
-                    "command": "docker-explorer.stopContainer",
+                }, {
+                    "command": "docker-explorer.executeInBashInContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@1"
-                },
-                {
-                    "command": "docker-explorer.restartContainer",
+                }, {
+                    "command": "docker-explorer.startContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@2"
                 },
                 {
-                    "command": "docker-explorer.showContainerStatistics",
+                    "command": "docker-explorer.stopContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@3"
                 },
                 {
-                    "command": "docker-explorer.showContainerLogs",
+                    "command": "docker-explorer.restartContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@4"
                 },
                 {
-                    "command": "docker-explorer.removeContainer",
+                    "command": "docker-explorer.showContainerStatistics",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@5"
+                },
+                {
+                    "command": "docker-explorer.showContainerLogs",
+                    "when": "view == dockerContainers",
+                    "group": "docker-explorer@6"
+                },
+                {
+                    "command": "docker-explorer.removeContainer",
+                    "when": "view == dockerContainers",
+                    "group": "docker-explorer@7"
                 }
             ]
         },
@@ -130,6 +146,11 @@
                     "type": "number",
                     "default": 1000,
                     "description": "Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh."
+                },
+                "docker-explorer.executionCommand": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Command to execute in container."
                 }
             }
         }
