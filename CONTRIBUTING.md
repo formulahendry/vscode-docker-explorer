@@ -1,6 +1,7 @@
 ## Prerequisites
 * Latest [Visual Studio Code](https://code.visualstudio.com/)
 * [Node.js](https://nodejs.org/) v6.0.0 or higher
+* [Docker](https://www.docker.com/)
 
 ## Setup
 1. Fork and clone the repository
