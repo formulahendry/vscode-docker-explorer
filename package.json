@@ -37,10 +37,21 @@
             "explorer": [{
                 "id": "dockerContainers",
                 "name": "Docker Containers"
+            }, {
+                "id": "dockerImages",
+                "name": "Docker Images"
             }]
         },
         "commands": [{
                 "command": "docker-explorer.refreshDockerContainers",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "docker-explorer.refreshDockerImages",
                 "title": "Refresh",
                 "icon": {
                     "light": "resources/light/refresh.svg",
@@ -82,6 +93,14 @@
             {
                 "command": "docker-explorer.executeInBashInContainer",
                 "title": "Execute In Bash"
+            },
+            {
+                "command": "docker-explorer.runFromImage",
+                "title": "Run"
+            },
+            {
+                "command": "docker-explorer.removeImage",
+                "title": "Remove"
             }
         ],
         "menus": {
@@ -92,6 +111,10 @@
             }, {
                 "command": "docker-explorer.searchContainer",
                 "when": "view == dockerContainers"
+            }, {
+                "command": "docker-explorer.refreshDockerImages",
+                "when": "view == dockerImages",
+                "group": "navigation"
             }],
             "view/item/context": [{
                     "command": "docker-explorer.executeCommandInContainer",
@@ -130,6 +153,16 @@
                     "command": "docker-explorer.removeContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@7"
+                },
+                {
+                    "command": "docker-explorer.runFromImage",
+                    "when": "view == dockerImages",
+                    "group": "docker-explorer@0"
+                },
+                {
+                    "command": "docker-explorer.removeImage",
+                    "when": "view == dockerImages",
+                    "group": "docker-explorer@1"
                 }
             ]
         },

@@ -2,15 +2,18 @@
 import * as vscode from "vscode";
 import { AppInsightsClient } from "./appInsightsClient";
 import { DockerContainers } from "./dockerContainers";
+import { DockerImages } from "./dockerImages";
 import { Executor } from "./executor";
 
 export function activate(context: vscode.ExtensionContext) {
     const dockerContainers = new DockerContainers(context);
     vscode.window.registerTreeDataProvider("dockerContainers", dockerContainers);
+    const dockerImages = new DockerImages(context);
+    vscode.window.registerTreeDataProvider("dockerImages", dockerImages);
     AppInsightsClient.sendEvent("loadExtension");
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerContainers", () => {
-        dockerContainers.refreshDockerContainers();
+        dockerContainers.refreshDockerTree();
         AppInsightsClient.sendEvent("refreshDockerContainers");
     }));
 
@@ -52,6 +55,23 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.executeInBashInContainer", (container) => {
         dockerContainers.executeInBashInContainer(container.name);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerImages", () => {
+        dockerImages.refreshDockerTree();
+        AppInsightsClient.sendEvent("refreshDockerImages");
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.getImage", (repository, tag) => {
+        dockerImages.getImage(repository, tag);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.runFromImage", (image) => {
+        dockerImages.runFromImage(image.repository, image.tag);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.removeImage", (image) => {
+        dockerImages.removeImage(image.repository, image.tag);
     }));
 
     context.subscriptions.push(vscode.window.onDidCloseTerminal((closedTerminal: vscode.Terminal) => {

@@ -1,23 +1,16 @@
 import * as path from "path";
 import * as vscode from "vscode";
 import { AppInsightsClient } from "./appInsightsClient";
+import { DockerTreeBase } from "./dockerTreeBase";
 import { Executor } from "./executor";
 import { DockerContainer } from "./Model/DockerContainer";
 import { Utility } from "./utility";
 
-export class DockerContainers implements vscode.TreeDataProvider<DockerContainer> {
-    public _onDidChangeTreeData: vscode.EventEmitter<DockerContainer | undefined> = new vscode.EventEmitter<DockerContainer | undefined>();
-    public readonly onDidChangeTreeData: vscode.Event<DockerContainer | undefined> = this._onDidChangeTreeData.event;
-    private isErrorMessageShown = false;
+export class DockerContainers extends DockerTreeBase<DockerContainer> implements vscode.TreeDataProvider<DockerContainer> {
     private containerStrings = [];
-    private _debounceTimer: NodeJS.Timer;
 
-    constructor(private context: vscode.ExtensionContext) {
-    }
-
-    public refreshDockerContainers(): void {
-        this.isErrorMessageShown = false;
-        this._onDidChangeTreeData.fire();
+    constructor(context: vscode.ExtensionContext) {
+        super(context);
     }
 
     public searchContainer(): void {
@@ -66,9 +59,9 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerContainer
                 ));
             });
         } catch (error) {
-            if (!this.isErrorMessageShown) {
+            if (!DockerTreeBase.isErrorMessageShown) {
                 vscode.window.showErrorMessage(`[Failed to list Docker Containers] ${error.stderr}`);
-                this.isErrorMessageShown = true;
+                DockerTreeBase.isErrorMessageShown = true;
             }
         } finally {
             this.setAutoRefresh();
@@ -125,15 +118,5 @@ export class DockerContainers implements vscode.TreeDataProvider<DockerContainer
     public executeInBashInContainer(containerName: string): void {
         Executor.runInTerminal(`docker exec -it ${containerName} bash`);
         AppInsightsClient.sendEvent("executeInBashInContainer");
-    }
-
-    private setAutoRefresh(): void {
-        const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
-        if (interval > 0) {
-            clearTimeout(this._debounceTimer);
-            this._debounceTimer = setTimeout(() => {
-                this._onDidChangeTreeData.fire();
-            }, interval);
-        }
     }
 }
