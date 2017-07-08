@@ -1,8 +1,8 @@
 {
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
-    "description": "Manage Docker Containers in Explorer",
-    "version": "0.0.7",
+    "description": "Manage Docker Containers and Images in Explorer",
+    "version": "0.0.8",
     "publisher": "formulahendry",
     "license": "MIT",
     "icon": "logo.png",

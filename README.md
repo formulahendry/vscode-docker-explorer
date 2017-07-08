@@ -4,7 +4,7 @@
 
 ## Features
 
-* Manage Docker Containers in Explorer
+* Manage Docker Containers and Images in Explorer
 
 ## Prerequisites
 
@@ -16,6 +16,10 @@
 * Manage Docker Containers in Explorer
 
 ![explorer](images/explorer.png)
+
+* Manage Docker Images in Explorer
+
+![image](images/image.png)
 
 ## Settings
 

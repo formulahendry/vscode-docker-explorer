@@ -1,3 +1,6 @@
+## 0.0.8 (2017-07-08)
+* [#2](https://github.com/formulahendry/vscode-docker-explorer/issues/2): Manage Docker Images
+
 ## 0.0.7 (2017-06-29)
 * [#7](https://github.com/formulahendry/vscode-docker-explorer/issues/7): Add 'Execute' and 'Execute In Bash' to context menu
 
