@@ -80,6 +80,11 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
         AppInsightsClient.sendEvent("startContainer");
     }
 
+    public attachContainer(containerName: string): void {
+        Executor.runInTerminal(`docker attach ${containerName}`);
+        AppInsightsClient.sendEvent("attachContainer");
+    }
+
     public stopContainer(containerName: string): void {
         Executor.runInTerminal(`docker stop ${containerName}`);
         AppInsightsClient.sendEvent("stopContainer");
