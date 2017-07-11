@@ -77,16 +77,19 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
 
     public startContainer(containerName: string): void {
         Executor.runInTerminal(`docker start ${containerName}`);
+        this.refreshDockerTree();
         AppInsightsClient.sendEvent("startContainer");
     }
 
     public stopContainer(containerName: string): void {
         Executor.runInTerminal(`docker stop ${containerName}`);
+        this.refreshDockerTree();
         AppInsightsClient.sendEvent("stopContainer");
     }
 
     public restartContainer(containerName: string): void {
         Executor.runInTerminal(`docker restart ${containerName}`);
+        this.refreshDockerTree();
         AppInsightsClient.sendEvent("restartContainer");
     }
 
@@ -102,6 +105,7 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
 
     public removeContainer(containerName: string): void {
         Executor.runInTerminal(`docker rm ${containerName}`);
+        this.refreshDockerTree();
         AppInsightsClient.sendEvent("removeContainer");
     }
 
