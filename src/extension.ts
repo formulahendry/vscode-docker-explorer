@@ -2,6 +2,8 @@
 import * as vscode from "vscode";
 import { AppInsightsClient } from "./appInsightsClient";
 import { DockerContainers } from "./dockerContainers";
+import { DockerHubManager } from "./DockerHub/DockerHubManager";
+import { DockerHubRepos } from "./dockerHubRepos";
 import { DockerImages } from "./dockerImages";
 import { Executor } from "./executor";
 
@@ -10,7 +12,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerTreeDataProvider("dockerContainers", dockerContainers);
     const dockerImages = new DockerImages(context);
     vscode.window.registerTreeDataProvider("dockerImages", dockerImages);
+    const dockerHubRepos = new DockerHubRepos(context);
+    vscode.window.registerTreeDataProvider("dockerHubRepos", dockerHubRepos);
     AppInsightsClient.sendEvent("loadExtension");
+    DockerHubManager.Instance.dockerHubTreeViewRef = dockerHubRepos;
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerContainers", () => {
         dockerContainers.refreshDockerTree();
@@ -72,6 +77,25 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.removeImage", (image) => {
         dockerImages.removeImage(image.repository, image.tag);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerHubImages", () => {
+        DockerHubManager.Instance.refresh();
+        AppInsightsClient.sendEvent("refreshDockerHubImages");
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.loginDockerHub", () => {
+        DockerHubManager.Instance.login();
+        AppInsightsClient.sendEvent("loginDockerHub");
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.logoutDockerHub", () => {
+        DockerHubManager.Instance.logout();
+        AppInsightsClient.sendEvent("logoutDockerHub");
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.pullFromDockerHub", (repo) => {
+        dockerHubRepos.pullFromHub(repo.user, repo.repository);
     }));
 
     context.subscriptions.push(vscode.window.onDidCloseTerminal((closedTerminal: vscode.Terminal) => {

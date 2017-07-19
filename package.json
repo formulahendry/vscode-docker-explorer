@@ -40,6 +40,10 @@
             }, {
                 "id": "dockerImages",
                 "name": "Docker Images"
+            },
+            {
+                "id": "dockerHubRepos",
+                "name": "Repos in Docker Hub"
             }]
         },
         "commands": [{
@@ -52,6 +56,14 @@
             },
             {
                 "command": "docker-explorer.refreshDockerImages",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "docker-explorer.refreshDockerHubImages",
                 "title": "Refresh",
                 "icon": {
                     "light": "resources/light/refresh.svg",
@@ -101,6 +113,18 @@
             {
                 "command": "docker-explorer.removeImage",
                 "title": "Remove"
+            },
+            {
+                "command": "docker-explorer.loginDockerHub",
+                "title": "Login"
+            },
+            {
+                "command": "docker-explorer.logoutDockerHub",
+                "title": "Logout"
+            },
+            {
+                "command": "docker-explorer.pullFromDockerHub",
+                "title": "Pull"
             }
         ],
         "menus": {
@@ -112,8 +136,20 @@
                 "command": "docker-explorer.searchContainer",
                 "when": "view == dockerContainers"
             }, {
+                "command": "docker-explorer.refreshDockerHubImages",
+                "when": "view == dockerHubRepos",
+                "group": "navigation"
+            }, {
                 "command": "docker-explorer.refreshDockerImages",
                 "when": "view == dockerImages",
+                "group": "navigation"
+            }, {
+                "command": "docker-explorer.loginDockerHub",
+                "when": "view == dockerHubRepos",
+                "group": "navigation"
+            }, {
+                "command": "docker-explorer.logoutDockerHub",
+                "when": "view == dockerHubRepos",
                 "group": "navigation"
             }],
             "view/item/context": [{
@@ -163,6 +199,11 @@
                     "command": "docker-explorer.removeImage",
                     "when": "view == dockerImages",
                     "group": "docker-explorer@1"
+                },
+                {
+                    "command": "docker-explorer.pullFromDockerHub",
+                    "when": "view == dockerHubRepos",
+                    "group": "docker-explorer@0"
                 }
             ]
         },
@@ -205,6 +246,7 @@
         "vscode": "^1.0.0"
     },
     "dependencies": {
-        "applicationinsights": "^0.20.1"
+        "applicationinsights": "^0.20.1",
+        "axios": "^0.16.2"
     }
 }
