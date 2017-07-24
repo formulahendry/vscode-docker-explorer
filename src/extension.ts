@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import { AppInsightsClient } from "./appInsightsClient";
 import { DockerContainers } from "./dockerContainers";
 import { DockerHubManager } from "./DockerHub/DockerHubManager";
-import { DockerHubRepos } from "./dockerHubRepos";
+import { DockerHubTreeDataProvider } from "./DockerHubTreeDataProvider";
 import { DockerImages } from "./dockerImages";
 import { Executor } from "./executor";
 
@@ -12,10 +12,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerTreeDataProvider("dockerContainers", dockerContainers);
     const dockerImages = new DockerImages(context);
     vscode.window.registerTreeDataProvider("dockerImages", dockerImages);
-    const dockerHubRepos = new DockerHubRepos(context);
-    vscode.window.registerTreeDataProvider("dockerHubRepos", dockerHubRepos);
+    const dockerHubTreeDataProvider = new DockerHubTreeDataProvider(context);
+    vscode.window.registerTreeDataProvider("DockerHubTreeView", dockerHubTreeDataProvider);
     AppInsightsClient.sendEvent("loadExtension");
-    DockerHubManager.Instance.dockerHubTreeViewRef = dockerHubRepos;
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerContainers", () => {
         dockerContainers.refreshDockerTree();
@@ -79,23 +78,20 @@ export function activate(context: vscode.ExtensionContext) {
         dockerImages.removeImage(image.repository, image.tag);
     }));
 
-    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerHubImages", () => {
-        DockerHubManager.Instance.refresh();
-        AppInsightsClient.sendEvent("refreshDockerHubImages");
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerHub", () => {
+        dockerHubTreeDataProvider.refresh();
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.loginDockerHub", () => {
-        DockerHubManager.Instance.login();
-        AppInsightsClient.sendEvent("loginDockerHub");
+        dockerHubTreeDataProvider.login();
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.logoutDockerHub", () => {
-        DockerHubManager.Instance.logout();
-        AppInsightsClient.sendEvent("logoutDockerHub");
+        dockerHubTreeDataProvider.logout();
     }));
 
-    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.pullFromDockerHub", (repo) => {
-        dockerHubRepos.pullFromHub(repo.user, repo.repository);
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.pullFromDockerHub", (element) => {
+        dockerHubTreeDataProvider.pullFromHub(element.parent, element.name);
     }));
 
     context.subscriptions.push(vscode.window.onDidCloseTerminal((closedTerminal: vscode.Terminal) => {

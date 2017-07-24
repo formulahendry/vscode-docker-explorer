@@ -42,8 +42,8 @@
                 "name": "Docker Images"
             },
             {
-                "id": "dockerHubRepos",
-                "name": "Repos in Docker Hub"
+                "id": "DockerHubTreeView",
+                "name": "Docker Hub"
             }]
         },
         "commands": [{
@@ -63,7 +63,7 @@
                 }
             },
             {
-                "command": "docker-explorer.refreshDockerHubImages",
+                "command": "docker-explorer.refreshDockerHub",
                 "title": "Refresh",
                 "icon": {
                     "light": "resources/light/refresh.svg",
@@ -136,8 +136,8 @@
                 "command": "docker-explorer.searchContainer",
                 "when": "view == dockerContainers"
             }, {
-                "command": "docker-explorer.refreshDockerHubImages",
-                "when": "view == dockerHubRepos",
+                "command": "docker-explorer.refreshDockerHub",
+                "when": "view == DockerHubTreeView",
                 "group": "navigation"
             }, {
                 "command": "docker-explorer.refreshDockerImages",
@@ -145,11 +145,11 @@
                 "group": "navigation"
             }, {
                 "command": "docker-explorer.loginDockerHub",
-                "when": "view == dockerHubRepos",
+                "when": "view == DockerHubTreeView",
                 "group": "navigation"
             }, {
                 "command": "docker-explorer.logoutDockerHub",
-                "when": "view == dockerHubRepos",
+                "when": "view == DockerHubTreeView",
                 "group": "navigation"
             }],
             "view/item/context": [{
@@ -202,7 +202,7 @@
                 },
                 {
                     "command": "docker-explorer.pullFromDockerHub",
-                    "when": "view == dockerHubRepos",
+                    "when": "view == DockerHubTreeView && viewItem == image",
                     "group": "docker-explorer@0"
                 }
             ]
