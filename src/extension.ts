@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import { AppInsightsClient } from "./appInsightsClient";
 import { DockerContainers } from "./dockerContainers";
 import { DockerHubManager } from "./DockerHub/DockerHubManager";
-import { DockerHubTreeDataProvider } from "./DockerHubTreeDataProvider";
+import { DockerHubTreeDataProvider } from "./dockerHubTreeDataProvider";
 import { DockerImages } from "./dockerImages";
 import { Executor } from "./executor";
 
