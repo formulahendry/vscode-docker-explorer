@@ -35,16 +35,22 @@
     "contributes": {
         "views": {
             "explorer": [{
-                "id": "dockerContainers",
-                "name": "Docker Containers"
-            }, {
-                "id": "dockerImages",
-                "name": "Docker Images"
-            },
-            {
-                "id": "DockerHubTreeView",
-                "name": "Docker Hub"
-            }]
+                    "id": "dockerContainers",
+                    "name": "Docker Containers"
+                },
+                {
+                    "id": "dockerImages",
+                    "name": "Docker Images"
+                },
+                {
+                    "id": "DockerHubTreeView",
+                    "name": "Docker Hub"
+                },
+                {
+                    "id": "suggestedDockerImages",
+                    "name": "Suggested Docker Hub Images"
+                }
+            ]
         },
         "commands": [{
                 "command": "docker-explorer.refreshDockerContainers",
@@ -125,6 +131,14 @@
             {
                 "command": "docker-explorer.pullFromDockerHub",
                 "title": "Pull"
+            },
+            {
+                "command": "docker-explorer.pullLatestFromDockerHub",
+                "title": "Pull latest"
+            },
+            {
+                "command": "docker-explorer.openDockerHubPage",
+                "title": "Open Docker Hub page"
             }
         ],
         "menus": {
@@ -156,11 +170,13 @@
                     "command": "docker-explorer.executeCommandInContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@0"
-                }, {
+                },
+                {
                     "command": "docker-explorer.executeInBashInContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@1"
-                }, {
+                },
+                {
                     "command": "docker-explorer.startContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@2"
@@ -204,6 +220,21 @@
                     "command": "docker-explorer.pullFromDockerHub",
                     "when": "view == DockerHubTreeView && viewItem == image",
                     "group": "docker-explorer@0"
+                },
+                {
+                    "command": "docker-explorer.openDockerHubPage",
+                    "when": "view == DockerHubTreeView && viewItem == image",
+                    "group": "docker-explorer@1"
+                },
+                {
+                    "command": "docker-explorer.pullLatestFromDockerHub",
+                    "when": "view == suggestedDockerImages",
+                    "group": "docker-explorer@0"
+                },
+                {
+                    "command": "docker-explorer.openDockerHubPage",
+                    "when": "view == suggestedDockerImages",
+                    "group": "docker-explorer@1"
                 }
             ]
         },

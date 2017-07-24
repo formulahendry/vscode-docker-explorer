@@ -6,12 +6,15 @@ import { DockerHubManager } from "./DockerHub/DockerHubManager";
 import { DockerHubTreeDataProvider } from "./dockerHubTreeDataProvider";
 import { DockerImages } from "./dockerImages";
 import { Executor } from "./executor";
+import { SuggestedDockerImages } from "./suggestedDockerImages";
 
 export function activate(context: vscode.ExtensionContext) {
     const dockerContainers = new DockerContainers(context);
     vscode.window.registerTreeDataProvider("dockerContainers", dockerContainers);
     const dockerImages = new DockerImages(context);
     vscode.window.registerTreeDataProvider("dockerImages", dockerImages);
+    const suggestedDockerImages = new SuggestedDockerImages(context);
+    vscode.window.registerTreeDataProvider("suggestedDockerImages", suggestedDockerImages);
     const dockerHubTreeDataProvider = new DockerHubTreeDataProvider(context);
     vscode.window.registerTreeDataProvider("DockerHubTreeView", dockerHubTreeDataProvider);
     AppInsightsClient.sendEvent("loadExtension");
@@ -94,8 +97,33 @@ export function activate(context: vscode.ExtensionContext) {
         dockerHubTreeDataProvider.pullFromHub(element.parent, element.name);
     }));
 
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.pullLatestFromDockerHub", (repo) => {
+        suggestedDockerImages.pullFromHub(repo.user, repo.repository);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.openDockerHubPage", (repo) => {
+        AppInsightsClient.sendEvent("openDockerHubPage");
+        let urlPrefix = "https://hub.docker.com/r/";
+
+        if (repo.parent == null) {
+            // when the context menu is invoked in "Suggested Docker Hub images" tree, repo.parent is null
+            if (repo.user == null) {
+                // when the context menu is invoked on an official image, repo.user is null
+                urlPrefix = "https://hub.docker.com/_/";
+            }
+            vscode.commands.executeCommand("vscode.open", vscode.Uri.parse(`${urlPrefix + repo.label}`));
+        } else {
+            // when the context menu is invoked in "Docker Hub images" tree, repo.parent is {user}/{image}
+            vscode.commands.executeCommand("vscode.open", vscode.Uri.parse(`${urlPrefix + repo.parent}`));
+        }
+    }));
+
     context.subscriptions.push(vscode.window.onDidCloseTerminal((closedTerminal: vscode.Terminal) => {
         Executor.onDidCloseTerminal(closedTerminal);
+    }));
+
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
+        suggestedDockerImages._onDidChangeTreeData.fire();
     }));
 }
 
