@@ -16,10 +16,15 @@ export class SuggestedDockerImages extends DockerTreeBase<DockerHubRepo> impleme
     }
 
     public getChildren(element?: DockerHubRepo): Thenable<DockerHubRepo[]> {
-        const document = vscode.window.activeTextEditor.document;
-        const images = this.suggestImage(document.languageId, document.fileName);
+        if (vscode.window.activeTextEditor) {
+            const document = vscode.window.activeTextEditor.document;
 
-        return Promise.resolve(images);
+            if (document && document.languageId !== "plaintext") {
+                const images = this.suggestImage(document.languageId, document.fileName);
+
+                return Promise.resolve(images);
+            }
+        }
     }
 
     public suggestImage(languageId: string, fileName: string): DockerHubRepo[] {
