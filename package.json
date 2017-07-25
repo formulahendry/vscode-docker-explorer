@@ -29,18 +29,26 @@
         "url": "https://github.com/formulahendry/vscode-docker-explorer.git"
     },
     "activationEvents": [
-        "onView:dockerContainers"
+        "onView:dockerContainers",
+        "onView:dockerImages",
+        "onView:azureRegistries",
+        "*"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "views": {
-            "explorer": [{
+            "explorer": [
+                {
                     "id": "dockerContainers",
                     "name": "Docker Containers"
                 },
                 {
                     "id": "dockerImages",
                     "name": "Docker Images"
+                },
+                {
+                    "id": "azureRegistries",
+                    "name": "Azure Container Registry"
                 },
                 {
                     "id": "DockerHubTreeView",
@@ -52,7 +60,8 @@
                 }
             ]
         },
-        "commands": [{
+        "commands": [
+            {
                 "command": "docker-explorer.refreshDockerContainers",
                 "title": "Refresh",
                 "icon": {
@@ -62,6 +71,14 @@
             },
             {
                 "command": "docker-explorer.refreshDockerImages",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "docker-explorer.refreshAzureRegistries",
                 "title": "Refresh",
                 "icon": {
                     "light": "resources/light/refresh.svg",
@@ -121,6 +138,26 @@
                 "title": "Remove"
             },
             {
+                "command": "docker-explorer.pushImage",
+                "title": "Push to ACR"
+            },
+            {
+                "command": "docker-explorer.pullImage",
+                "title": "Pull"
+            },
+            {
+                "command": "docker-explorer.deployToAzure",
+                "title": "Deploy"
+            },
+            {
+                "command": "docker-explorer.loginAzureCli",
+                "title": "Login"
+            },
+            {
+                "command": "docker-explorer.logoutAzureCli",
+                "title": "Logout"
+            },
+            {
                 "command": "docker-explorer.loginDockerHub",
                 "title": "Login",
                 "icon": {
@@ -150,31 +187,54 @@
             }
         ],
         "menus": {
-            "view/title": [{
-                "command": "docker-explorer.refreshDockerContainers",
-                "when": "view == dockerContainers",
-                "group": "navigation"
-            }, {
-                "command": "docker-explorer.searchContainer",
-                "when": "view == dockerContainers"
-            }, {
-                "command": "docker-explorer.refreshDockerHub",
-                "when": "view == DockerHubTreeView",
-                "group": "navigation"
-            }, {
-                "command": "docker-explorer.refreshDockerImages",
-                "when": "view == dockerImages",
-                "group": "navigation"
-            }, {
-                "command": "docker-explorer.loginDockerHub",
-                "when": "view == DockerHubTreeView",
-                "group": "navigation"
-            }, {
-                "command": "docker-explorer.logoutDockerHub",
-                "when": "view == DockerHubTreeView",
-                "group": "navigation"
-            }],
-            "view/item/context": [{
+            "view/title": [
+                {
+                    "command": "docker-explorer.refreshDockerContainers",
+                    "when": "view == dockerContainers",
+                    "group": "navigation"
+                },
+                {
+                    "command": "docker-explorer.searchContainer",
+                    "when": "view == dockerContainers"
+                },
+                {
+                    "command": "docker-explorer.refreshDockerHub",
+                    "when": "view == DockerHubTreeView",
+                    "group": "navigation"
+                },
+                {
+                    "command": "docker-explorer.refreshDockerImages",
+                    "when": "view == dockerImages",
+                    "group": "navigation"
+                },
+                {
+                    "command": "docker-explorer.refreshAzureRegistries",
+                    "when": "view == azureRegistries",
+                    "group": "navigation"
+                },
+                {
+                    "command": "docker-explorer.loginAzureCli",
+                    "when": "view == azureRegistries",
+                    "group": "navigation"
+                },
+                {
+                    "command": "docker-explorer.logoutAzureCli",
+                    "when": "view == azureRegistries",
+                    "group": "navigation"
+                },
+                {
+                    "command": "docker-explorer.loginDockerHub",
+                    "when": "view == DockerHubTreeView",
+                    "group": "navigation"
+                },
+                {
+                    "command": "docker-explorer.logoutDockerHub",
+                    "when": "view == DockerHubTreeView",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
                     "command": "docker-explorer.executeCommandInContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@0"
@@ -222,6 +282,21 @@
                 {
                     "command": "docker-explorer.removeImage",
                     "when": "view == dockerImages",
+                    "group": "docker-explorer@1"
+                },
+                {
+                    "command": "docker-explorer.pushImage",
+                    "when": "view == dockerImages",
+                    "group": "docker-explorer@2"
+                },
+                {
+                    "command": "docker-explorer.pullImage",
+                    "when": "view == azureRegistries && viewItem == tag",
+                    "group": "docker-explorer@0"
+                },
+                {
+                    "command": "docker-explorer.deployToAzure",
+                    "when": "view == azureRegistries && viewItem == tag",
                     "group": "docker-explorer@1"
                 },
                 {
