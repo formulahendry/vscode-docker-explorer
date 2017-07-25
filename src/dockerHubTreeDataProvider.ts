@@ -30,11 +30,16 @@ export class DockerHubTreeDataProvider extends DockerTreeBase<DockerHubNode> imp
     }
 
     public login() {
+        let user = "";
+        let pwd = "";
         this.getUserCredential()
         .then((credential) => {
-            return DockerHubManager.Instance.login(credential[0], credential[1]);
+            user = credential[0];
+            pwd = credential[1];
+            return DockerHubManager.Instance.login(user, pwd);
         })
         .then(() => {
+            Executor.exec(`docker login -u ${user} -p ${pwd}`);
             return this._onDidChangeTreeData.fire();
         })
         .catch((error) => {

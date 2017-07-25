@@ -1,5 +1,4 @@
-import * as path from "path";
-import { Command, TreeItem } from "vscode";
+import { Command, TreeItem, Uri } from "vscode";
 import { Entry } from "./Entry";
 
 export class DockerHubNode extends TreeItem {
@@ -14,7 +13,7 @@ export class DockerHubNode extends TreeItem {
     }
 
     public get path(): string {
-        return path.join(this._parent, this.name);
+        return Uri.parse(`${this._parent}/${this.name}`).toString();
     }
 
     public get name(): string {

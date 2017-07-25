@@ -1,5 +1,5 @@
 "use strict";
-import { execSync } from "child_process";
+import { execSync, exec } from "child_process";
 import * as vscode from "vscode";
 
 export class Executor {
@@ -9,6 +9,10 @@ export class Executor {
         }
         this.terminal.show();
         this.terminal.sendText(command, addNewLine);
+    }
+
+    public static exec(command: string) {
+        return exec(command);
     }
 
     public static execSync(command: string) {

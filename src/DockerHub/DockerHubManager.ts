@@ -54,13 +54,6 @@ export class DockerHubManager {
         this._token = "";
     }
 
-    public refresh() {
-        if (!this._token || this._token.length === 0) {
-            vscode.window.showErrorMessage("Please Login first");
-            return;
-        }
-    }
-
     public listRepositories(): Promise<DockerHubNode[]> {
         return new Promise((resolve, reject) => {
             if (!this._token || this._token.length === 0) {

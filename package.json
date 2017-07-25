@@ -122,11 +122,19 @@
             },
             {
                 "command": "docker-explorer.loginDockerHub",
-                "title": "Login"
+                "title": "Login",
+                "icon": {
+                    "light": "resources/light/login.png",
+                    "dark": "resources/dark/login.png"
+                }
             },
             {
                 "command": "docker-explorer.logoutDockerHub",
-                "title": "Logout"
+                "title": "Logout",
+                "icon": {
+                    "light": "resources/light/logout.png",
+                    "dark": "resources/dark/logout.png"
+                }
             },
             {
                 "command": "docker-explorer.pullFromDockerHub",
