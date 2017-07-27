@@ -116,7 +116,7 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
     }
 
     public executeInBashInContainer(containerName: string): void {
-        Executor.runInTerminal(`docker exec -it ${containerName} bash`);
+        Executor.runInTerminal(`docker exec -it ${containerName} bash`, true, containerName);
         AppInsightsClient.sendEvent("executeInBashInContainer");
     }
 }
