@@ -135,7 +135,7 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
             if (registryName === undefined) {
 
             } else {
-                const credential = Executor.execSync(`az acr credential show -n ${registryName}`);
+                const credential = Executor.execSync(`docker exec azure-cli az acr credential show -n ${registryName}`);
                 const credentialObj = JSON.parse(credential);
                 const password = credentialObj.passwords[0].value;
                 const loginResult = Executor.execSync(`docker login ${registryName}.azurecr.io -u ${registryName} -p ${password}`);
