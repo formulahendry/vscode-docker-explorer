@@ -4,7 +4,7 @@
 
 ## Features
 
-* Manage Docker Containers and Images in Explorer
+* Manage Docker Containers, Docker Images, Docker Hub and Azure Container Registry
 
 ## Prerequisites
 
@@ -20,6 +20,18 @@
 * Manage Docker Images in Explorer
 
 ![image](images/image.png)
+
+* Manage Docker Hub in Explorer
+
+![docker-hub](images/docker-hub.png)
+
+* Manage Azure Container Registry in Explorer
+
+![ACR](images/ACR.png)
+
+* Suggested Docker Images
+
+![suggested-image](images/suggested-image.png)
 
 ## Settings
 

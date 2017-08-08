@@ -1,3 +1,12 @@
+## 0.1.0 (2017-08-08)
+* Manage Docker Hub 
+* Manage Azure Container Registry
+* Suggested Docker Images
+* Run bash in a separate terminal
+* Use dockerized az-cli instead of local one
+* Add options to show container logs
+* Change autoRefreshInterval to 2000 ms
+
 ## 0.0.8 (2017-07-08)
 * [#2](https://github.com/formulahendry/vscode-docker-explorer/issues/2): Manage Docker Images
 
