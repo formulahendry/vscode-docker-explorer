@@ -32,7 +32,8 @@
         "onView:dockerContainers",
         "onView:dockerImages",
         "onView:azureRegistries",
-        "*"
+        "onView:suggestedDockerImages",
+        "onView:DockerHubTreeView"
     ],
     "main": "./out/src/extension",
     "contributes": {
@@ -340,7 +341,7 @@
                 },
                 "docker-explorer.autoRefreshInterval": {
                     "type": "number",
-                    "default": 1000,
+                    "default": 2000,
                     "description": "Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh."
                 },
                 "docker-explorer.executionCommand": {

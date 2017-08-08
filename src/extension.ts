@@ -141,12 +141,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.loginAzureCli", () => {
         azureContainerRegistries.login();
-         AppInsightsClient.sendEvent("loginAzureCli");
+        AppInsightsClient.sendEvent("loginAzureCli");
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.logoutAzureCli", () => {
         azureContainerRegistries.logout();
-         AppInsightsClient.sendEvent("logoutAzureCli");
+        AppInsightsClient.sendEvent("logoutAzureCli");
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshAzureRegistries", () => {

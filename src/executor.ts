@@ -1,10 +1,10 @@
 "use strict";
-import { execSync, exec } from "child_process";
+import { exec, execSync } from "child_process";
 import * as vscode from "vscode";
 
 export class Executor {
     public static runInTerminal(command: string, addNewLine: boolean = true, terminal: string = "Docker Explorer"): void {
-        if (this.terminals[terminal] == undefined ) {
+        if (this.terminals[terminal] === undefined ) {
             this.terminals[terminal] = vscode.window.createTerminal(terminal);
         }
         this.terminals[terminal].show();
@@ -23,5 +23,5 @@ export class Executor {
         delete this.terminals[closedTerminal.name];
     }
 
-    private static terminals : { [id: string]: vscode.Terminal } = {} 
+    private static terminals: { [id: string]: vscode.Terminal } = {};
 }

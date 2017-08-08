@@ -14,14 +14,13 @@ export class AzureContainerRegistries extends DockerTreeBase<ACRTreeItem> implem
         super(context);
     }
     public login() {
-        Executor.runInTerminal(`docker run -it --name azure-cli azuresdk/azure-cli-python`, true, 'Azure CLI');
+        Executor.runInTerminal(`docker run -it --name azure-cli azuresdk/azure-cli-python`, true, "Azure CLI");
 
-
-        Executor.runInTerminal(`docker exec azure-cli az login`, true, 'Azure CLI');
+        Executor.runInTerminal(`docker exec azure-cli az login`, true, "Azure CLI");
     }
 
     public logout() {
-        Executor.runInTerminal(`docker exec azure-cli az logout`, true, 'Azure CLI');
+        Executor.runInTerminal(`docker exec azure-cli az logout`, true, "Azure CLI");
     }
 
     public getTreeItem(element: ACRTreeItem): vscode.TreeItem {
@@ -39,7 +38,6 @@ export class AzureContainerRegistries extends DockerTreeBase<ACRTreeItem> implem
             } catch (error) {
                 const item = new ACRTreeItem(new ACRNode("Please Login first.", [], null, "root"), "root");
                 ret.push(item);
-                this.login();
             }
             for (const reg of regs) {
                 const item = new ACRTreeItem(new ACRNode(reg.name, [], ACRHierachy.root, "registry"), "registry");
@@ -50,7 +48,7 @@ export class AzureContainerRegistries extends DockerTreeBase<ACRTreeItem> implem
             return Promise.resolve(ret);
         } else if (element.node.type === "registry") {
             const ret = [];
-            const images = JSON.parse(Executor.execSync(`docker exec azure-cli az acr repository list -n ${element.node.name}`))
+            const images = JSON.parse(Executor.execSync(`docker exec azure-cli az acr repository list -n ${element.node.name}`));
             for (const imageName of images) {
                 const item = new ACRTreeItem(new ACRNode(imageName, [], element.node, "repository"), "repository");
                 item.collapsibleState = 1;
@@ -60,7 +58,8 @@ export class AzureContainerRegistries extends DockerTreeBase<ACRTreeItem> implem
             return Promise.resolve(ret);
         } else if (element.node.type === "repository") {
             const ret = [];
-            const tags = JSON.parse(Executor.execSync(`docker exec azure-cli az acr repository show-tags --name ${element.node.parent.name} --repository ${element.node.name}`))
+            const tags = JSON.parse(Executor.execSync(`docker exec azure-cli az acr repository show-tags --name \
+            ${element.node.parent.name} --repository ${element.node.name}`));
             for (const tag of tags) {
                 const item = new ACRTreeItem(new ACRNode(tag, [], element.node, "tag"), "tag");
                 element.node.children.push(item.node);
@@ -88,7 +87,7 @@ export class AzureContainerRegistries extends DockerTreeBase<ACRTreeItem> implem
         if (tag && repository && registry) {
             const timestamp = Date.now();
             const appName = `webapponlinux-${timestamp}`;
-            const appServicePlan = `AppServiceLinuxDockerPlan${timestamp}`
+            const appServicePlan = `AppServiceLinuxDockerPlan${timestamp}`;
             const resourceGroup = `rg-webapp-${timestamp}`;
             const location = "WestUS";
             const serverUrl = `${registry}.azurecr.io`;
@@ -99,16 +98,20 @@ export class AzureContainerRegistries extends DockerTreeBase<ACRTreeItem> implem
             const password = credentialObj.passwords[0].value;
 
             // Create a Resource Group
-            Executor.runInTerminal(`docker exec azure-cli az group create --name ${resourceGroup} --location ${location}`, true, 'Azure CLI');
+            Executor.runInTerminal(`docker exec azure-cli az group create --name ${resourceGroup} --location ${location}`, true, "Azure CLI");
             // Create an App Service Plan
-            Executor.runInTerminal(`docker exec azure-cli az appservice plan create --name ${appServicePlan} --resource-group ${resourceGroup} --location ${location} --is-linux --sku S1`, true, 'Azure CLI');
+            Executor.runInTerminal(`docker exec azure-cli az appservice plan create --name \
+            ${appServicePlan} --resource-group ${resourceGroup} --location ${location} --is-linux --sku S1`, true, "Azure CLI");
             // Create a Web App
-            Executor.runInTerminal(`docker exec azure-cli az webapp create --name ${appName} --plan ${appServicePlan} --resource-group ${resourceGroup}`, true, 'Azure CLI');
+            Executor.runInTerminal(`docker exec azure-cli az webapp create --name \
+            ${appName} --plan ${appServicePlan} --resource-group ${resourceGroup}`, true, "Azure CLI");
             // Configure Web App with a Custom Docker Container from Docker Hub
-            Executor.runInTerminal(`docker exec azure-cli az webapp config container set --docker-custom-image-name ${dockerContainerPath} --docker-registry-server-password ${password} --docker-registry-server-url ${serverUrl} --docker-registry-server-user ${registry} --name ${appName} --resource-group ${resourceGroup}`, true, 'Azure CLI');
+            Executor.runInTerminal(`docker exec azure-cli az webapp config container set --docker-custom-image-name \
+            ${dockerContainerPath} --docker-registry-server-password ${password} --docker-registry-server-url \
+            ${serverUrl} --docker-registry-server-user ${registry} --name ${appName} --resource-group ${resourceGroup}`, true, "Azure CLI");
 
             // Sync output Web URL
-            Executor.runInTerminal(`echo "Web App is deployed to http://${appName}.azurewebsites.net/"`, true, 'Azure CLI');
+            Executor.runInTerminal(`echo "Web App is deployed to http://${appName}.azurewebsites.net/"`, true, "Azure CLI");
         }
     }
 }
