@@ -96,7 +96,8 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
     }
 
     public showContainerLogs(containerName: string): void {
-        Executor.runInTerminal(`docker logs ${containerName}`);
+        const containerLogsOptions = Utility.getConfiguration().get<string>("containerLogsOptions");
+        Executor.runInTerminal(`docker logs ${containerName} ${containerLogsOptions}`);
         AppInsightsClient.sendEvent("showContainerLogs");
     }
 

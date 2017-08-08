@@ -348,6 +348,11 @@
                     "type": "string",
                     "default": "",
                     "description": "Command to execute in container."
+                },
+                "docker-explorer.containerLogsOptions": {
+                    "type": "string",
+                    "default": "--tail 50 -f",
+                    "description": "Options to show container logs."
                 }
             }
         }
