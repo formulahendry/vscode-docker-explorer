@@ -27,7 +27,7 @@ export class DockerHubManager {
         return this._userName;
     }
 
-    public login(user: string, pwd: string): Promise<void> {
+    public login(user: string, pwd: string): Promise<any> {
         return new Promise((resolve, reject) => {
             axios.post(Constants.LOGIN_URL, {
                 username: user,
