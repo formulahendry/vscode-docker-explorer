@@ -81,7 +81,7 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
     }
 
     public attachContainer(containerName: string): void {
-        Executor.runInTerminal(`docker attach ${containerName}`);
+        Executor.runInTerminal(`docker attach ${containerName}`, true, `attach ${containerName}`);
         AppInsightsClient.sendEvent("attachContainer");
     }
 
@@ -102,7 +102,7 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
 
     public showContainerLogs(containerName: string): void {
         const containerLogsOptions = Utility.getConfiguration().get<string>("containerLogsOptions");
-        Executor.runInTerminal(`docker logs ${containerName} ${containerLogsOptions}`);
+        Executor.runInTerminal(`docker logs ${containerName} ${containerLogsOptions}`, true, `logs ${containerName}`);
         AppInsightsClient.sendEvent("showContainerLogs");
     }
 

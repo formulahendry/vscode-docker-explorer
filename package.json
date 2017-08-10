@@ -2,7 +2,7 @@
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
     "description": "Manage Docker Containers, Docker Images, Docker Hub and Azure Container Registry",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "formulahendry",
     "license": "MIT",
     "icon": "logo.png",
@@ -105,6 +105,10 @@
             {
                 "command": "docker-explorer.restartContainer",
                 "title": "Restart"
+            },
+            {
+                "command": "docker-explorer.attachContainer",
+                "title": "Attach"
             },
             {
                 "command": "docker-explorer.showContainerStatistics",
@@ -269,19 +273,24 @@
                     "group": "docker-explorer@4"
                 },
                 {
-                    "command": "docker-explorer.showContainerStatistics",
+                    "command": "docker-explorer.attachContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@5"
                 },
                 {
-                    "command": "docker-explorer.showContainerLogs",
+                    "command": "docker-explorer.showContainerStatistics",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@6"
                 },
                 {
-                    "command": "docker-explorer.removeContainer",
+                    "command": "docker-explorer.showContainerLogs",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@7"
+                },
+                {
+                    "command": "docker-explorer.removeContainer",
+                    "when": "view == dockerContainers",
+                    "group": "docker-explorer@8"
                 },
                 {
                     "command": "docker-explorer.runFromImage",

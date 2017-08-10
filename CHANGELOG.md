@@ -1,3 +1,7 @@
+## 0.1.1 (2017-08-10)
+* Add 'Attach Container'
+* Create seperate terminal for 'Attach Container' and 'Container Logs'
+
 ## 0.1.0 (2017-08-08)
 * Manage Docker Hub 
 * Manage Azure Container Registry
