@@ -39,6 +39,10 @@ export function activate(context: vscode.ExtensionContext) {
         dockerContainers.startContainer(container.name);
     }));
 
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.attachContainer", (container) => {
+        dockerContainers.attachContainer(container.name);
+    }));
+
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.stopContainer", (container) => {
         dockerContainers.stopContainer(container.name);
     }));
