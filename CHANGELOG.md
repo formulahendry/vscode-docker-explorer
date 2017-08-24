@@ -1,3 +1,6 @@
+## 0.1.2 (2017-08-24)
+* Not show Docker Images with `<none>` tag
+
 ## 0.1.1 (2017-08-10)
 * Add 'Attach Container'
 * Create seperate terminal for 'Attach Container' and 'Container Logs'

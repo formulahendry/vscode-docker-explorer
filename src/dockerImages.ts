@@ -83,17 +83,19 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
                 .split(/[\r\n]+/g).filter((item) => item);
             imageStrings.forEach((imageString) => {
                 const items = imageString.split(" ");
-                images.push(new DockerImage(
-                    items[0],
-                    items[1],
-                    items[2],
-                    this.context.asAbsolutePath(path.join("resources", "image.png")),
-                    {
-                        command: "docker-explorer.getImage",
-                        title: "",
-                        arguments: [items[1], items[2]],
-                    },
-                ));
+                if (items[2] !== "<none>") {
+                    images.push(new DockerImage(
+                        items[0],
+                        items[1],
+                        items[2],
+                        this.context.asAbsolutePath(path.join("resources", "image.png")),
+                        {
+                            command: "docker-explorer.getImage",
+                            title: "",
+                            arguments: [items[1], items[2]],
+                        },
+                    ));
+                }
             });
         } catch (error) {
             if (!DockerTreeBase.isErrorMessageShown) {
