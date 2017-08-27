@@ -39,6 +39,15 @@
 * `docker-explorer.executionCommand`: Command to execute in container.
 * `docker-explorer.containerLogsOptions`: Options to show container logs. (Default is **"--tail 50 -f"**)
 
+## Visibility of Docker Explorer
+
+You could use below settings to show or hide different explorers:
+* `docker-explorer.showDockerContainers`: Docker Containers
+* `docker-explorer.showDockerImages`: Docker Images
+* `docker-explorer.showAzureRegistries`: Azure Container Registry
+* `docker-explorer.showDockerHubTreeView`: Docker Hub
+* `docker-explorer.showSuggestedDockerImages`: Suggested Docker Hub Images
+
 ## Telemetry data
 
 By default, anonymous telemetry data collection is turned on to understand user behavior to improve this extension. To disable it, update the settings.json as below:

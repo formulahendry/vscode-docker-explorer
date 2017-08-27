@@ -2,7 +2,7 @@
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
     "description": "Manage Docker Containers, Docker Images, Docker Hub and Azure Container Registry",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "publisher": "formulahendry",
     "license": "MIT",
     "icon": "logo.png",
@@ -41,23 +41,28 @@
             "explorer": [
                 {
                     "id": "dockerContainers",
-                    "name": "Docker Containers"
+                    "name": "Docker Containers",
+                    "when": "config.docker-explorer.showDockerContainers == true"
                 },
                 {
                     "id": "dockerImages",
-                    "name": "Docker Images"
+                    "name": "Docker Images",
+                    "when": "config.docker-explorer.showDockerImages == true"
                 },
                 {
                     "id": "azureRegistries",
-                    "name": "Azure Container Registry"
+                    "name": "Azure Container Registry",
+                    "when": "config.docker-explorer.showAzureRegistries == true"
                 },
                 {
                     "id": "DockerHubTreeView",
-                    "name": "Docker Hub"
+                    "name": "Docker Hub",
+                    "when": "config.docker-explorer.showDockerHubTreeView == true"
                 },
                 {
                     "id": "suggestedDockerImages",
-                    "name": "Suggested Docker Hub Images"
+                    "name": "Suggested Docker Hub Images",
+                    "when": "config.docker-explorer.showSuggestedDockerImages == true"
                 }
             ]
         },
@@ -347,6 +352,31 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Whether to enable anonymous usage collection."
+                },
+                "docker-explorer.showDockerContainers": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to show Docker Containers Explorer."
+                },
+                "docker-explorer.showDockerImages": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to show Docker Images Explorer."
+                },
+                "docker-explorer.showAzureRegistries": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to show Azure Container Registry Explorer."
+                },
+                "docker-explorer.showDockerHubTreeView": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to show Docker Hub Explorer."
+                },
+                "docker-explorer.showSuggestedDockerImages": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to show Suggested Docker Hub Images Explorer."
                 },
                 "docker-explorer.autoRefreshInterval": {
                     "type": "number",

@@ -1,3 +1,6 @@
+## 0.1.3 (2017-08-27)
+* [#22](https://github.com/formulahendry/vscode-docker-explorer/issues/22): Add option to show or hide different explorers
+
 ## 0.1.2 (2017-08-24)
 * Not show Docker Images with `<none>` tag
 
