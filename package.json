@@ -2,7 +2,7 @@
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
     "description": "Manage Docker Containers, Docker Images, Docker Hub and Azure Container Registry",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "publisher": "formulahendry",
     "license": "MIT",
     "icon": "logo.png",
@@ -124,6 +124,10 @@
                 "title": "Logs"
             },
             {
+                "command": "docker-explorer.inspectContainer",
+                "title": "Inspect"
+            },
+            {
                 "command": "docker-explorer.removeContainer",
                 "title": "Remove"
             },
@@ -142,6 +146,10 @@
             {
                 "command": "docker-explorer.runFromImage",
                 "title": "Run"
+            },
+            {
+                "command": "docker-explorer.inspectImage",
+                "title": "Inspect"
             },
             {
                 "command": "docker-explorer.removeImage",
@@ -293,9 +301,14 @@
                     "group": "docker-explorer@7"
                 },
                 {
-                    "command": "docker-explorer.removeContainer",
+                    "command": "docker-explorer.inspectContainer",
                     "when": "view == dockerContainers",
                     "group": "docker-explorer@8"
+                },
+                {
+                    "command": "docker-explorer.removeContainer",
+                    "when": "view == dockerContainers",
+                    "group": "docker-explorer@9"
                 },
                 {
                     "command": "docker-explorer.runFromImage",
@@ -303,14 +316,19 @@
                     "group": "docker-explorer@0"
                 },
                 {
-                    "command": "docker-explorer.removeImage",
+                    "command": "docker-explorer.inspectImage",
                     "when": "view == dockerImages",
                     "group": "docker-explorer@1"
                 },
                 {
-                    "command": "docker-explorer.pushImage",
+                    "command": "docker-explorer.removeImage",
                     "when": "view == dockerImages",
                     "group": "docker-explorer@2"
+                },
+                {
+                    "command": "docker-explorer.pushImage",
+                    "when": "view == dockerImages",
+                    "group": "docker-explorer@3"
                 },
                 {
                     "command": "docker-explorer.pullImage",

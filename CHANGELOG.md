@@ -1,3 +1,6 @@
+## 0.1.4 (2017-09-14)
+* Add 'Inspect' command
+
 ## 0.1.3 (2017-08-27)
 * [#22](https://github.com/formulahendry/vscode-docker-explorer/issues/22): Add option to show or hide different explorers
 

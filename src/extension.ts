@@ -59,6 +59,10 @@ export function activate(context: vscode.ExtensionContext) {
         dockerContainers.showContainerLogs(container.name);
     }));
 
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.inspectContainer", (container) => {
+        dockerContainers.inspectContainer(container.name);
+    }));
+
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.removeContainer", (container) => {
         dockerContainers.removeContainer(container.name);
     }));
@@ -82,6 +86,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.runFromImage", (image) => {
         dockerImages.runFromImage(image.repository, image.tag);
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.inspectImage", (image) => {
+        dockerImages.inspectImage(image.repository, image.tag);
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.removeImage", (image) => {

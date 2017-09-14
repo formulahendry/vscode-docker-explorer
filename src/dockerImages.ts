@@ -122,6 +122,11 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
         AppInsightsClient.sendEvent("runFromImage");
     }
 
+    public inspectImage(repository: string, tag: string): void {
+        Executor.runInTerminal(`docker inspect ${repository}:${tag}`);
+        AppInsightsClient.sendEvent("inspectImage");
+    }
+
     public removeImage(repository: string, tag: string): void {
         Executor.runInTerminal(`docker rmi ${repository}:${tag}`);
         AppInsightsClient.sendEvent("removeImage");

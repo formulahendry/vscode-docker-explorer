@@ -106,6 +106,11 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
         AppInsightsClient.sendEvent("showContainerLogs");
     }
 
+    public inspectContainer(containerName: string): void {
+        Executor.runInTerminal(`docker inspect ${containerName}`);
+        AppInsightsClient.sendEvent("inspectContainer");
+    }
+
     public removeContainer(containerName: string): void {
         Executor.runInTerminal(`docker rm ${containerName}`);
         AppInsightsClient.sendEvent("removeContainer");
