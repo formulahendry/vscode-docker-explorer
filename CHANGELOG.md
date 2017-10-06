@@ -1,3 +1,6 @@
+## 0.1.5 (2017-10-06)
+* Add 'Azure' category
+
 ## 0.1.4 (2017-09-14)
 * Add 'Inspect' command
 
