@@ -20,10 +20,12 @@ export class DockerTreeBase<T> {
         if (interval > 0) {
             clearTimeout(this._debounceTimer);
             this._debounceTimer = setInterval(() => {
-                const itemStrings = getItemStringsCallback();
-                if (!Utility.isArrayEqual(itemStrings, cachedItemStrings)) {
-                    this._onDidChangeTreeData.fire();
-                }
+                try {
+                    const itemStrings = getItemStringsCallback();
+                    if (!Utility.isArrayEqual(itemStrings, cachedItemStrings)) {
+                        this._onDidChangeTreeData.fire();
+                    }
+                } catch (e) { }
             }, interval);
         }
     }
