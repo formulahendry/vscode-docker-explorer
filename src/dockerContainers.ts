@@ -7,7 +7,7 @@ import { DockerContainer } from "./Model/DockerContainer";
 import { Utility } from "./utility";
 
 export class DockerContainers extends DockerTreeBase<DockerContainer> implements vscode.TreeDataProvider<DockerContainer> {
-    private containerStrings = [];
+    private cachedContainerStrings = [];
 
     constructor(context: vscode.ExtensionContext) {
         super(context);
@@ -17,8 +17,8 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
         AppInsightsClient.sendEvent("searchContainer");
         const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
         let containerStrings = [];
-        if (interval > 0 && this.containerStrings.length > 0) {
-            this.containerStrings.forEach((containerString) => {
+        if (interval > 0 && this.cachedContainerStrings.length > 0) {
+            this.cachedContainerStrings.forEach((containerString) => {
                 const items = containerString.split(" ");
                 containerStrings.push(`${items[1]} (${items[2]})`);
             });
@@ -41,9 +41,8 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
     public getChildren(element?: DockerContainer): Thenable<DockerContainer[]> {
         const containers = [];
         try {
-            this.containerStrings = Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}} {{.Image}} {{.Status}}\"")
-                .split(/[\r\n]+/g).filter((item) => item);
-            this.containerStrings.forEach((containerString) => {
+            this.cachedContainerStrings = this.getContainerStrings();
+            this.cachedContainerStrings.forEach((containerString) => {
                 const items = containerString.split(" ");
                 const image = items[3] === "Up" ? "container-on.png" : "container-off.png";
                 containers.push(new DockerContainer(
@@ -64,7 +63,7 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
                 DockerTreeBase.isErrorMessageShown = true;
             }
         } finally {
-            this.setAutoRefresh();
+            this.setAutoRefresh(this.cachedContainerStrings, this.getContainerStrings);
         }
 
         return Promise.resolve(containers);
@@ -129,5 +128,10 @@ export class DockerContainers extends DockerTreeBase<DockerContainer> implements
     public executeInBashInContainer(containerName: string): void {
         Executor.runInTerminal(`docker exec -it ${containerName} bash`, true, containerName);
         AppInsightsClient.sendEvent("executeInBashInContainer");
+    }
+
+    private getContainerStrings(): string[] {
+        return Executor.execSync("docker ps -a --format \"{{.ID}} {{.Names}} {{.Image}} {{.Status}}\"")
+            .split(/[\r\n]+/g).filter((item) => item);
     }
 }

@@ -15,12 +15,15 @@ export class DockerTreeBase<T> {
         this._onDidChangeTreeData.fire();
     }
 
-    protected setAutoRefresh(): void {
+    protected setAutoRefresh(cachedItemStrings: string[], getItemStringsCallback: () => string[]): void {
         const interval = Utility.getConfiguration().get<number>("autoRefreshInterval");
         if (interval > 0) {
             clearTimeout(this._debounceTimer);
-            this._debounceTimer = setTimeout(() => {
-                this._onDidChangeTreeData.fire();
+            this._debounceTimer = setInterval(() => {
+                const itemStrings = getItemStringsCallback();
+                if (!Utility.isArrayEqual(itemStrings, cachedItemStrings)) {
+                    this._onDidChangeTreeData.fire();
+                }
             }, interval);
         }
     }

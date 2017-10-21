@@ -78,9 +78,9 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
 
     public getChildren(element?: DockerImage): Thenable<DockerImage[]> {
         const images = [];
+        let imageStrings;
         try {
-            const imageStrings = Executor.execSync("docker images --filter \"dangling=false\" --format \"{{.ID}} {{.Repository}} {{.Tag}}\"")
-                .split(/[\r\n]+/g).filter((item) => item);
+            imageStrings = this.getImageStrings();
             imageStrings.forEach((imageString) => {
                 const items = imageString.split(" ");
                 if (items[2] !== "<none>") {
@@ -103,7 +103,7 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
                 DockerTreeBase.isErrorMessageShown = true;
             }
         } finally {
-            this.setAutoRefresh();
+            this.setAutoRefresh(imageStrings, this.getImageStrings);
         }
 
         return Promise.resolve(images);
@@ -151,4 +151,8 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
         AppInsightsClient.sendEvent("pushImage");
     }
 
+    private getImageStrings(): string[] {
+        return Executor.execSync("docker images --filter \"dangling=false\" --format \"{{.ID}} {{.Repository}} {{.Tag}}\"")
+            .split(/[\r\n]+/g).filter((item) => item);
+    }
 }

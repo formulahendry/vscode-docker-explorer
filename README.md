@@ -35,7 +35,7 @@
 
 ## Settings
 
-* `docker-explorer.autoRefreshInterval`: Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh. (Default is **2000**)
+* `docker-explorer.autoRefreshInterval`: Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh. (Default is **1000**)
 * `docker-explorer.executionCommand`: Command to execute in container.
 * `docker-explorer.containerLogsOptions`: Options to show container logs. (Default is **"--tail 50 -f"**)
 

@@ -399,7 +399,7 @@
                 },
                 "docker-explorer.autoRefreshInterval": {
                     "type": "number",
-                    "default": 2000,
+                    "default": 1000,
                     "description": "Interval (in milliseconds) to auto-refresh containers list. Set 0 to disable auto-refresh."
                 },
                 "docker-explorer.executionCommand": {
