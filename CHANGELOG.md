@@ -1,3 +1,7 @@
+## 0.1.6 (2017-10-22)
+* Add 'Push Image' command
+* Improve Auto Refresh: only refresh when images or containers are changed
+
 ## 0.1.5 (2017-10-06)
 * Add 'Azure' category
 

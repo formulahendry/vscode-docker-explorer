@@ -2,7 +2,7 @@
     "name": "docker-explorer",
     "displayName": "Docker Explorer",
     "description": "Manage Docker Containers, Docker Images, Docker Hub and Azure Container Registry",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "publisher": "formulahendry",
     "license": "MIT",
     "icon": "logo.png",
