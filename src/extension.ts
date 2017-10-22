@@ -100,6 +100,10 @@ export function activate(context: vscode.ExtensionContext) {
         dockerImages.pushImage(image.repository, image.tag);
     }));
 
+    context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.pushImageToACR", (image) => {
+        dockerImages.pushImageToACR(image.repository, image.tag);
+    }));
+
     context.subscriptions.push(vscode.commands.registerCommand("docker-explorer.refreshDockerHub", () => {
         dockerHubTreeDataProvider.refresh();
     }));

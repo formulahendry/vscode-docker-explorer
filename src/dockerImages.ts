@@ -133,6 +133,11 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
     }
 
     public pushImage(repository: string, tag: string): void {
+        Executor.runInTerminal(`docker push ${repository}:${tag}`);
+        AppInsightsClient.sendEvent("pushImage");
+    }
+
+    public pushImageToACR(repository: string, tag: string): void {
         const registtyNames = ACRHierachy.root.children.map((item) => item.name);
         vscode.window.showQuickPick(registtyNames, { placeHolder: "Choose Registry" }).then((registryName) => {
             if (registryName === undefined) {
@@ -148,7 +153,7 @@ export class DockerImages extends DockerTreeBase<DockerImage> implements vscode.
                 }
             }
         });
-        AppInsightsClient.sendEvent("pushImage");
+        AppInsightsClient.sendEvent("pushImageToACR");
     }
 
     private getImageStrings(): string[] {
