@@ -7,6 +7,6 @@ export class Utility {
     }
 
     public static isArrayEqual(a: string[], b: string[]): boolean {
-        return JSON.stringify(a.sort()) == JSON.stringify(b.sort());
+        return JSON.stringify(a.sort()) === JSON.stringify(b.sort());
     }
 }
