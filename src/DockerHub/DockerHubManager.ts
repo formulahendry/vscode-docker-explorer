@@ -67,18 +67,25 @@ export class DockerHubManager {
             };
             axios.post(`${Constants.REPOSITORY_URL}/${this._userName}?${Constants.PAGE_SIZE}`, {}, options)
             .then((response) => {
-                const data: any = response.data;
-                if (data && data.count > 0 && data.results) {
-                    const repos = [];
-                    for (const result of data.results) {
-                        repos.push(result.name);
+                if (response.status === 200) {
+                    const data: any = response.data;
+                    if (data && data.results) {
+                        const repos = [];
+                        for (const result of data.results) {
+                            repos.push(result.name);
+                        }
+                        if (repos.length === 0) {
+                            vscode.window.showInformationMessage("No repositories found.");
+                        }
+                        return resolve(repos.map((repo) => new DockerHubNode(
+                            new Entry(repo, "r"),
+                            this._userName,
+                        )));
+                    } else {
+                        return reject("Error: Cannot parse the repositories from response.");
                     }
-                    return resolve(repos.map((repo) => new DockerHubNode(
-                        new Entry(repo, "r"),
-                        this._userName,
-                    )));
                 } else {
-                    return reject("Error: Cannot get repositories.");
+                    return reject(`Error: ${response.statusText}, Response code: ${response.status}.`);
                 }
             })
             .catch((err) => {
@@ -97,19 +104,23 @@ export class DockerHubManager {
             };
             axios.post(`${Constants.REPOSITORY_URL}/${repo.path}/tags?${Constants.PAGE_SIZE}`, {}, options)
                 .then((response) => {
-                    const data: any = response.data;
-                    if (data && data.count > 0 && data.results) {
-                        const tags = [];
-                        for (const result of data.results) {
-                            tags.push(result.name);
-                        }
-                        return resolve(
-                            tags.map((tag) => new DockerHubNode(
-                                new Entry(tag, "i"),
-                                repo.path,
+                    if (response.status === 200) {
+                        const data: any = response.data;
+                        if (data && data.results) {
+                            const tags = [];
+                            for (const result of data.results) {
+                                tags.push(result.name);
+                            }
+                            return resolve(
+                                tags.map((tag) => new DockerHubNode(
+                                    new Entry(tag, "i"),
+                                    repo.path,
                             )));
+                        } else {
+                            return reject("Error: Cannot parse the tags from response.");
+                        }
                     } else {
-                        return reject("Error: Cannot get tags.");
+                        return reject(`Error: ${response.statusText}, Response code: ${response.status}.`);
                     }
                 })
                 .catch((err) => {
