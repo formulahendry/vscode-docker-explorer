@@ -1,3 +1,6 @@
+## 0.1.7 (2020-02-15)
+* Change IDs of containers and images views to avoid conflict with Docker extension
+
 ## 0.1.6 (2017-10-22)
 * Add 'Push Image' command
 * Improve Auto Refresh: only refresh when images or containers are changed
