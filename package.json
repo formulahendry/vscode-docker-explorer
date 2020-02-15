@@ -30,8 +30,8 @@
         "url": "https://github.com/formulahendry/vscode-docker-explorer.git"
     },
     "activationEvents": [
-        "onView:dockerContainers",
-        "onView:dockerImages",
+        "onView:dockerExplorerContainers",
+        "onView:dockerExplorerImages",
         "onView:azureRegistries",
         "onView:suggestedDockerImages",
         "onView:DockerHubTreeView"
@@ -41,12 +41,12 @@
         "views": {
             "explorer": [
                 {
-                    "id": "dockerContainers",
+                    "id": "dockerExplorerContainers",
                     "name": "Docker Containers",
                     "when": "config.docker-explorer.showDockerContainers == true"
                 },
                 {
-                    "id": "dockerImages",
+                    "id": "dockerExplorerImages",
                     "name": "Docker Images",
                     "when": "config.docker-explorer.showDockerImages == true"
                 },
@@ -221,12 +221,12 @@
             "view/title": [
                 {
                     "command": "docker-explorer.refreshDockerContainers",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "navigation"
                 },
                 {
                     "command": "docker-explorer.searchContainer",
-                    "when": "view == dockerContainers"
+                    "when": "view == dockerExplorerContainers"
                 },
                 {
                     "command": "docker-explorer.refreshDockerHub",
@@ -235,7 +235,7 @@
                 },
                 {
                     "command": "docker-explorer.refreshDockerImages",
-                    "when": "view == dockerImages",
+                    "when": "view == dockerExplorerImages",
                     "group": "navigation"
                 },
                 {
@@ -267,77 +267,77 @@
             "view/item/context": [
                 {
                     "command": "docker-explorer.executeCommandInContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@0"
                 },
                 {
                     "command": "docker-explorer.executeInBashInContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@1"
                 },
                 {
                     "command": "docker-explorer.startContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@2"
                 },
                 {
                     "command": "docker-explorer.stopContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@3"
                 },
                 {
                     "command": "docker-explorer.restartContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@4"
                 },
                 {
                     "command": "docker-explorer.attachContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@5"
                 },
                 {
                     "command": "docker-explorer.showContainerStatistics",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@6"
                 },
                 {
                     "command": "docker-explorer.showContainerLogs",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@7"
                 },
                 {
                     "command": "docker-explorer.inspectContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@8"
                 },
                 {
                     "command": "docker-explorer.removeContainer",
-                    "when": "view == dockerContainers",
+                    "when": "view == dockerExplorerContainers",
                     "group": "docker-explorer@9"
                 },
                 {
                     "command": "docker-explorer.runFromImage",
-                    "when": "view == dockerImages",
+                    "when": "view == dockerExplorerImages",
                     "group": "docker-explorer@0"
                 },
                 {
                     "command": "docker-explorer.inspectImage",
-                    "when": "view == dockerImages",
+                    "when": "view == dockerExplorerImages",
                     "group": "docker-explorer@1"
                 },
                 {
                     "command": "docker-explorer.removeImage",
-                    "when": "view == dockerImages",
+                    "when": "view == dockerExplorerImages",
                     "group": "docker-explorer@2"
                 },
                 {
                     "command": "docker-explorer.pushImage",
-                    "when": "view == dockerImages",
+                    "when": "view == dockerExplorerImages",
                     "group": "docker-explorer@3"
                 },
                 {
                     "command": "docker-explorer.pushImageToACR",
-                    "when": "view == dockerImages",
+                    "when": "view == dockerExplorerImages",
                     "group": "docker-explorer@4"
                 },
                 {

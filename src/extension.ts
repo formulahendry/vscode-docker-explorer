@@ -11,9 +11,9 @@ import { SuggestedDockerImages } from "./suggestedDockerImages";
 
 export function activate(context: vscode.ExtensionContext) {
     const dockerContainers = new DockerContainers(context);
-    vscode.window.registerTreeDataProvider("dockerContainers", dockerContainers);
+    vscode.window.registerTreeDataProvider("dockerExplorerContainers", dockerContainers);
     const dockerImages = new DockerImages(context);
-    vscode.window.registerTreeDataProvider("dockerImages", dockerImages);
+    vscode.window.registerTreeDataProvider("dockerExplorerImages", dockerImages);
     const azureContainerRegistries = new AzureContainerRegistries(context);
     vscode.window.registerTreeDataProvider("azureRegistries", azureContainerRegistries);
     const suggestedDockerImages = new SuggestedDockerImages(context);
